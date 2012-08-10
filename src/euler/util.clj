@@ -61,3 +61,9 @@
               (dorun (for [idx (range curr n curr)] (aset arr idx 1))))
             (recur (+ curr 2) (conj primes curr)))
           (recur (+ curr 2) primes))))))
+
+(defn triangle [^long n] (/ (* n (inc n)) 2))
+(defn triangles [] (map triangle (range)))
+
+(defn number-of-divisors [^long n]
+  (reduce (fn [r [k v]] (* r (inc v))) (int 1) (frequencies (prime-factors n))))
