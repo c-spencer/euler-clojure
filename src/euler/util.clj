@@ -70,3 +70,10 @@
 
 (defn ^boolean fast-even? [^long n]
   (zero? (bit-and (clojure.lang.RT/uncheckedLongCast n) 1)))
+
+(defn factorial [n] (reduce * (range 1N (inc n))))
+
+(defn binomial-choose [n k]
+  (/ (factorial n)
+     (* (factorial k)) (factorial (- n k))))
+

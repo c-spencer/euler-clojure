@@ -103,3 +103,13 @@
         (if (> len max-len)
           (recur (+ 2 i) len i)
           (recur (+ 2 i) max-len max-i))))))
+
+(defmethod euler-problem 15 [_]
+  (let [arr (make-array BigInteger 21 21)]
+    (doseq [i (range 21)]
+      (aset arr 0 i (biginteger 1))
+      (aset arr i 0 (biginteger 1)))
+    (doseq [x (range 1 21) y (range 1 21)]
+      (aset arr x y (biginteger (+ (aget arr (dec x) y)
+                                (aget arr x (dec y))))))
+    (aget arr 20 20)))
