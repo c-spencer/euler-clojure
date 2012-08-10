@@ -79,3 +79,27 @@
   (->> (triangles)
        (filter #(> (number-of-divisors %) 500))
        (first)))
+
+(defmethod euler-problem 13 [_]
+  (->> (reduce + defs/problem13)
+       (str)
+       (take 10)
+       (apply str)
+       (parse-long)))
+
+(defmethod euler-problem 14 [_]
+  (loop [i (int 1)
+         max-len (int 0)
+         max-i (int 0)]
+    (if (>= i 1000000)
+      max-i
+      (let [len (int (loop [j (int i)
+                            n (int 1)]
+                      (if (<= j 1)
+                        n
+                        (if (fast-even? j)
+                          (recur (quot j 2) (+ 1 n))
+                          (recur (inc (* j 3)) (+ 1 n))))))]
+        (if (> len max-len)
+          (recur (+ 2 i) len i)
+          (recur (+ 2 i) max-len max-i))))))

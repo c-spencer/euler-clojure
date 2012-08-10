@@ -67,3 +67,6 @@
 
 (defn number-of-divisors [^long n]
   (reduce (fn [r [k v]] (* r (inc v))) (int 1) (frequencies (prime-factors n))))
+
+(defn ^boolean fast-even? [^long n]
+  (zero? (bit-and (clojure.lang.RT/uncheckedLongCast n) 1)))

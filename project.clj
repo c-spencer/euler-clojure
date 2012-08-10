@@ -10,4 +10,6 @@
   :profiles {
     :dev {
       :plugins [[lein-midje "2.0.0-SNAPSHOT"]]
-      :dependencies [[midje "1.4.0"]]}})
+      :dependencies [[midje "1.4.0"]]}}
+  :jvm-opts ["-Xmx1g" "-server"]
+  :warn-on-reflection true)
