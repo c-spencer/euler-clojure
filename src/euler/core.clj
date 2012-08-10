@@ -1,0 +1,57 @@
+(ns euler.core
+  (use euler.util)
+  (use clojure.math.numeric-tower))
+
+(defmulti euler-problem (fn [i]
+  (do
+    (print "Running euler problem" i)
+    (println)
+    i)))
+
+(defmethod euler-problem 1 [_]
+  (reduce + (distinct (concat (range 3 1000 3) (range 5 1000 5)))))
+
+(defmethod euler-problem 2 [_]
+  (reduce +
+    (take-while #(<= % 4000000)
+      (filter even? (fibonacci)))))
+
+(defmethod euler-problem 3 [_]
+  (first (prime-factors 600851475143)))
+
+(defmethod euler-problem 4 [_]
+  (apply max
+    (for [i (range 100 999)
+          j (range 99 999 11)
+          :when (palindrome? (* i j))]
+      (* i j))))
+
+(defmethod euler-problem 5 [_]
+  (apply least-common-multiple (range 2 20)))
+
+(defmethod euler-problem 6 [_]
+  (let [square #(* % %)]
+    (- (square (apply + (range 101)))
+       (apply + (map square (range 101))))))
+
+(defmethod euler-problem 7 [_]
+  (nth (filter prime? (range)) 10000))
+
+(defmethod euler-problem 8 [_]
+  (let [big-number 7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843858615607891129494954595017379583319528532088055111254069874715852386305071569329096329522744304355766896648950445244523161731856403098711121722383113622298934233803081353362766142828064444866452387493035890729629049156044077239071381051585930796086670172427121883998797908792274921901699720888093776657273330010533678812202354218097512545405947522435258490771167055601360483958644670632441572215539753697817977846174064955149290862569321978468622482839722413756570560574902614079729686524145351004748216637048440319989000889524345065854122758866688116427171479924442928230863465674813919123162824586178664583591245665294765456828489128831426076900422421902267105562632111110937054421750694165896040807198403850962455444362981230987879927244284909188845801561660979191338754992005240636899125607176060588611646710940507754100225698315520005593572972571636269561882670428252483600823257530420752963450]
+    (apply max
+      (map
+        #(reduce * %)
+        (partition 5 1 (map (comp parse-int str) (str big-number)))))))
+
+(defmethod euler-problem 9 [_]
+  (let [limit 1000]
+    (first
+      (for [a (range 1 limit)
+            b (range a (- limit a))
+            c (list (- limit a b))
+            :when (= (+ (* a a) (* b b)) (* c c))]
+        (* a b c)))))
+
+(defmethod euler-problem 10 [_]
+  (reduce + (prime-sieve 2000000)))
