@@ -12,4 +12,5 @@
   (euler-problem 7) => 104743
   (euler-problem 8) => 40824
   (euler-problem 9) => 31875000
-  (euler-problem 10) => 142913828922)
+  (euler-problem 10) => 142913828922
+  (euler-problem 11) => 70600674)
