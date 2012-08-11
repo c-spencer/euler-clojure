@@ -1,6 +1,9 @@
 (ns euler.util
   (use clojure.math.numeric-tower))
 
+(defn ^boolean fast-even? [^long n]
+  (zero? (bit-and (clojure.lang.RT/uncheckedLongCast n) 1)))
+
 (defn find-factor [n]
   (if
     (zero? n) 0
@@ -46,21 +49,24 @@
                       false
                       (recur (+ 2 i))))))))
 
-(defn parse-int [s] (Integer/parseInt s))
-(defn parse-long [s] (Long/parseLong s))
+(defn ^int parse-int [s] (Integer/parseInt s))
+(defn ^long parse-long [s] (Long/parseLong s))
 
-(defn prime-sieve [n]
-  (let [arr (int-array (inc n))
-        root ((comp inc int) (Math/floor (Math/sqrt n)))]
-    (loop [curr 3
+(defn prime-sieve [^long n]
+  (let [^ints arr (int-array (inc n))
+        root (int (sqrt n))]
+    (loop [curr (int 3)
            primes (list 2)]
       (if (> curr n)
         (reverse primes)
         (if (zero? (aget arr curr))
           (do
-            (if (< curr root)
-              (dorun (for [idx (range curr n curr)] (aset arr idx 1))))
-            (recur (+ curr 2) (conj primes curr)))
+            (when (<= curr root)
+              (loop [idx (int curr)]
+                (when (< idx n)
+                  (aset arr idx 1)
+                  (recur (+ curr idx)))))
+            (recur (+ curr 2) (cons curr primes)))
           (recur (+ curr 2) primes))))))
 
 (defn triangle [^long n] (/ (* n (inc n)) 2))
@@ -68,9 +74,6 @@
 
 (defn number-of-divisors [^long n]
   (reduce (fn [r [k v]] (* r (inc v))) (int 1) (frequencies (prime-factors n))))
-
-(defn ^boolean fast-even? [^long n]
-  (zero? (bit-and (clojure.lang.RT/uncheckedLongCast n) 1)))
 
 (defn factorial [n] (reduce * (range 1N (inc n))))
 
