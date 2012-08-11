@@ -34,16 +34,17 @@
         #(if (> %1 %2) %1 %2)
         (map (comp frequencies prime-factors) xs)))))
 
-(defn prime? [n]
-  (if (< n 2)
-    false
-    (let [limit (sqrt n)]
-      (loop [i 2]
-        (if (> i limit)
-          true
-          (if (= (rem n i) 0)
-            false
-            (recur (inc i))))))))
+(defn ^boolean prime? [^long n]
+  (cond (< n 2) false
+        (= n 2) true
+        (fast-even? n) false
+        :else (let [limit (sqrt n)]
+                (loop [i (int 3)]
+                  (if (> i limit)
+                    true
+                    (if (= (rem n i) 0)
+                      false
+                      (recur (+ 2 i))))))))
 
 (defn parse-int [s] (Integer/parseInt s))
 (defn parse-long [s] (Long/parseLong s))

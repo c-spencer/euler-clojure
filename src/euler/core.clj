@@ -113,3 +113,9 @@
       (aset arr x y (biginteger (+ (aget arr (dec x) y)
                                 (aget arr x (dec y))))))
     (aget arr 20 20)))
+
+(defmethod euler-problem 16 [_]
+  (->> (expt 2 1000)
+       (str)
+       (map (comp parse-int str))
+       (reduce +)))
